@@ -225,11 +225,12 @@ function AviatorGame() {
     setTotalBets(1100 + Math.floor(Math.random() * 700));
   }, [round, loaded]);
 
-  // during the 10s wait bettors join in batches of ~10, like the real game
+  // Fill the list with 20 bets immediately, then add the remaining bets one at a time before takeoff.
   const visibleBets = useMemo(() => {
     if (phase === "intro") {
-      const batch = 10;
-      const count = Math.min(liveBets.length, Math.max(batch, Math.ceil((liveBets.length * roundProgress) / batch) * batch));
+      const initialCount = Math.min(20, liveBets.length);
+      const remainingCount = liveBets.length - initialCount;
+      const count = initialCount + Math.floor(roundProgress * remainingCount);
       return liveBets.slice(0, count);
     }
     return liveBets;
