@@ -19,9 +19,9 @@ import avatar9 from "../assets/aviator/avatar-9.png.asset.json";
 import avatar10 from "../assets/aviator/avatar-10.png.asset.json";
 import avatar11 from "../assets/aviator/avatar-11.png.asset.json";
 import avatar12 from "../assets/aviator/avatar-12.png.asset.json";
-import planeFrame1 from "../assets/aviator/plane-frame-1.svg";
-import planeFrame2 from "../assets/aviator/plane-frame-2.svg";
-import planeFrame3 from "../assets/aviator/plane-frame-3.svg";
+import propellerFrame1 from "../assets/aviator/propeller-frame-1.svg.asset.json";
+import propellerFrame2 from "../assets/aviator/propeller-frame-2.svg.asset.json";
+import propellerFrame3 from "../assets/aviator/propeller-frame-3.svg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
 });
 
 const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8, avatar9, avatar10, avatar11, avatar12];
-const planeFrames = [planeFrame1, planeFrame2, planeFrame3, planeFrame2];
+const planeFrames = [propellerFrame1.url, propellerFrame2.url, propellerFrame3.url, propellerFrame2.url];
 
 type LiveBet = { id: string; name: string; avatar: number; amount: number; cashAt: number | null };
 
@@ -227,7 +227,7 @@ function AviatorGame() {
   }, [liveBets, phase, roundProgress]);
 
   const curveEnd = useMemo(() => ({ x: 3 + flight * 81, y: 91 - flight * 73 }), [flight]);
-  const planeFrame = planeFrames[Math.floor(waveT * 12) % planeFrames.length] ?? planeFrame1;
+  const planeFrame = planeFrames[Math.floor(waveT * 12) % planeFrames.length] ?? propellerFrame1.url;
 
   const curve = useMemo(() => {
     const { x: endX, y: endY } = curveEnd;
