@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
 });
 
 const avatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6, avatar7, avatar8, avatar9, avatar10, avatar11, avatar12];
-const planeFrames = [propellerFrame1.url, propellerFrame2.url, propellerFrame3.url, propellerFrame2.url];
+const planeFrames = [propellerFrame1.url, propellerFrame2.url, propellerFrame3.url];
 
 type LiveBet = { id: string; name: string; avatar: number; amount: number; cashAt: number | null };
 
@@ -158,6 +158,7 @@ function AviatorGame() {
   const [flight, setFlight] = useState(0);
   const [roundProgress, setRoundProgress] = useState(0);
   const [waveT, setWaveT] = useState(0);
+  const [fanFrameIndex, setFanFrameIndex] = useState(0);
   const [phase, setPhase] = useState<"intro" | "flying" | "crashed">("intro");
   const [round, setRound] = useState(3325559);
   const [tab, setTab] = useState("All Bets");
@@ -212,6 +213,14 @@ function AviatorGame() {
 
   useEffect(() => {
     if (!loaded) return;
+    const timer = window.setInterval(() => {
+      setFanFrameIndex((frame) => (frame + 1) % planeFrames.length);
+    }, 90);
+    return () => window.clearInterval(timer);
+  }, [loaded]);
+
+  useEffect(() => {
+    if (!loaded) return;
     setLiveBets(makeRoundBets(round));
     setTotalBets(1100 + Math.floor(Math.random() * 700));
   }, [round, loaded]);
@@ -227,7 +236,7 @@ function AviatorGame() {
   }, [liveBets, phase, roundProgress]);
 
   const curveEnd = useMemo(() => ({ x: 3 + flight * 81, y: 91 - flight * 73 }), [flight]);
-  const planeFrame = planeFrames[Math.floor(waveT * 12) % planeFrames.length] ?? propellerFrame1.url;
+  const planeFrame = planeFrames[fanFrameIndex] ?? propellerFrame1.url;
 
   const curve = useMemo(() => {
     const { x: endX, y: endY } = curveEnd;
