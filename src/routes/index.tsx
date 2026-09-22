@@ -283,7 +283,7 @@ function AviatorGame() {
                 <div className={cashed ? "bet-row cashed" : "bet-row"} key={bet.id}>
                   <span className="bettor"><img src={avatars[bet.avatar]?.url ?? avatar1.url} alt="" />{bet.name}</span>
                   <strong>{money(bet.amount)}</strong>
-                  {cashed && bet.cashAt !== null && <span className="tiny-multi">{bet.cashAt.toFixed(2)}x</span>}
+                  {cashed && bet.cashAt !== null && <span className={`tiny-multi ${bet.cashAt >= 2 ? "high" : "low"}`}>{bet.cashAt.toFixed(2)}x</span>}
                   {cashed && bet.cashAt !== null && <em className="cash-out">{money(bet.amount * bet.cashAt)}</em>}
                 </div>
               );
